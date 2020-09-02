@@ -15,6 +15,10 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        
+        infoVC.tabBarItem = tabBarItem
+        
         self.viewControllers = [infoVC]
         // Do any additional setup after loading the view.
     }
@@ -23,13 +27,23 @@ class MainViewController: UITabBarController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        tabBar.barTintColor = .black
+        tabBar.tintColor = .lightGray
+        
+        
         
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.sizeToFit()
         searchController.automaticallyShowsCancelButton = true
+        navigationItem.searchController = searchController
         
         navigationItem.title = "Все видео"
-        navigationItem.searchController = searchController
+        
+        
     }
 
 

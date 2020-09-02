@@ -11,9 +11,14 @@ import UIKit
 class InfoViewController: UITableViewController, XMLParserDelegate {
     var videos: [TEDVideoModel] = []
     
+    let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.addSubview(activityView)
+        activityView.color = .white
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -23,12 +28,18 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
         
-        setupTabBarItem()
+//        setupTabBarItem()
         
         tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoTableViewCell")
         tableView.rowHeight = 90
         fetchData()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        activityView.center = tableView.center
+        activityView.startAnimating()
     }
     
     func fetchData() {
@@ -38,6 +49,7 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
             self.videos = videos
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.activityView.stopAnimating()
             }
             
             
@@ -126,10 +138,10 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     
     // MARK: setup views
     
-    func setupTabBarItem() {
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        
-        self.tabBarItem = tabBarItem
-    }
+//    func setupTabBarItem() {
+//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+//
+//        self.tabBarItem = tabBarItem
+//    }
     
 }
