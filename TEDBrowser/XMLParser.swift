@@ -23,11 +23,6 @@ class FeedParser:NSObject {
     }
     private var currentDuration: String = "" {
         didSet {
-            if currentDuration.count != 0 {
-                let index = currentDuration.index(currentDuration.endIndex, offsetBy: -5)
-                currentDuration = String(currentDuration[index...])
-                print(currentDuration)
-            }
             currentDuration = currentDuration.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
@@ -92,7 +87,12 @@ extension FeedParser: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            let video = TEDVideoModel(author: currentAuthor, title: currentTitle, duration: currentDuration, thumbnail: currentThumbnail)
+            var duration = currentDuration
+            
+            let index  = duration.index(duration.endIndex, offsetBy: -5)
+            
+            duration = String(duration[index...])
+            let video = TEDVideoModel(author: currentAuthor, title: currentTitle, duration: duration, thumbnail: currentThumbnail)
             rssItems.append(video)
         }
     }
