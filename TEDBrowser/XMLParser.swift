@@ -23,8 +23,12 @@ class FeedParser:NSObject {
     }
     private var currentDuration: String = "" {
         didSet {
-            let index = currentDuration.firstIndex(of: ":") ?? currentDuration.startIndex
-            currentDuration = String(currentDuration[index...])
+            if currentDuration.count != 0 {
+                let index = currentDuration.index(currentDuration.endIndex, offsetBy: -5)
+                currentDuration = String(currentDuration[index...])
+                print(currentDuration)
+            }
+            currentDuration = currentDuration.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
     private var currentThumbnail: String = "" {
@@ -71,7 +75,10 @@ extension FeedParser: XMLParserDelegate {
             currentAuthor = ""
             currentDuration = ""
             currentThumbnail = ""
+        } else if currentElement == "itunes:image" {
+            currentThumbnail = attributeDict["url"]!
         }
+            
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
@@ -79,7 +86,6 @@ extension FeedParser: XMLParserDelegate {
         case "title": currentTitle += string
         case "media:credit": currentAuthor += string
         case "itunes:duration": currentDuration += string
-        case "itunes:image": currentThumbnail += string
         default: break
         }
     }
