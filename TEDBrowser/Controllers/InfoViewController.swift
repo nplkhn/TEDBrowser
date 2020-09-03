@@ -17,7 +17,9 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.addSubview(activityView)
+//        self.tableView.addSubview(activityView)
+        self.parent?.view.addSubview(activityView)
+        activityView.center = self.parent?.view.center as! CGPoint
         activityView.color = .white
         
         
@@ -38,7 +40,7 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        activityView.center = tableView.center
+//        activityView.center = tableView.center
         activityView.startAnimating()
     }
     
@@ -60,13 +62,10 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        print(videos.count)
         return videos.count
     }
     
@@ -134,14 +133,5 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
      return true
      }
      */
-    
-    
-    // MARK: setup views
-    
-//    func setupTabBarItem() {
-//        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-//
-//        self.tabBarItem = tabBarItem
-//    }
     
 }
