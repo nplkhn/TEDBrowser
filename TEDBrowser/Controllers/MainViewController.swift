@@ -10,16 +10,25 @@ import UIKit
 
 class MainViewController: UITabBarController {
     
-    let infoVC: InfoViewController = InfoViewController()
+    private var infoVC: HomeViewController {
+        let infoVC = HomeViewController()
+        let tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        infoVC.tabBarItem = tabBarItem
+        return infoVC
+    }
+    
+    private var favouritesVC: FavouritesViewController {
+        let favouritesVC = FavouritesViewController()
+        let tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        favouritesVC.tabBarItem = tabBarItem
+        return favouritesVC
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .black
         
-        let tabBarItem = UITabBarItem(title: "", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        
-        infoVC.tabBarItem = tabBarItem
-        
-        self.viewControllers = [infoVC]
+        self.viewControllers = [infoVC, favouritesVC]
         // Do any additional setup after loading the view.
     }
     
@@ -38,10 +47,10 @@ class MainViewController: UITabBarController {
         
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchTextField.textColor = .white
+        
         searchController.automaticallyShowsCancelButton = true
         navigationItem.searchController = searchController
-        
-        navigationItem.title = "Все видео"
         
         
     }

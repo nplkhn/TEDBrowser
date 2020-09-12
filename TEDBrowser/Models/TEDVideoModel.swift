@@ -12,5 +12,5 @@ struct TEDVideoModel {
     let author: String?
     let title: String?
     let duration: String?
-    let thumbnail: String?
+    let thumbnailURL: String?
 }

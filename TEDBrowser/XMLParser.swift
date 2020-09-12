@@ -16,11 +16,7 @@ class FeedParser:NSObject {
             currentTitle = currentTitle.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
-    private var currentAuthor: String = "" {
-        didSet {
-            currentAuthor = currentAuthor.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        }
-    }
+    private var currentAuthor: String = ""
     private var currentDuration: String = "" {
         didSet {
             currentDuration = currentDuration.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -79,7 +75,11 @@ extension FeedParser: XMLParserDelegate {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         switch currentElement {
         case "title": currentTitle += string
-        case "media:credit": currentAuthor += string
+        case "media:credit":
+            if string != "" {
+                currentAuthor += string + ", "
+            }
+            
         case "itunes:duration": currentDuration += string
         default: break
         }
@@ -87,12 +87,17 @@ extension FeedParser: XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-            var duration = currentDuration
             
-            let index  = duration.index(duration.endIndex, offsetBy: -5)
+            var index  = currentDuration.index(currentDuration.endIndex, offsetBy: -5)
+            currentDuration = String(currentDuration[index...])
             
-            duration = String(duration[index...])
-            let video = TEDVideoModel(author: currentAuthor, title: currentTitle, duration: duration, thumbnail: currentThumbnail)
+            
+            index = currentTitle.index(before: currentTitle.firstIndex(of: "|")!)
+            currentTitle = String(currentTitle[..<index])
+            
+            currentAuthor = currentAuthor.trimmingCharacters(in: CharacterSet(charactersIn: ",").union(CharacterSet.whitespacesAndNewlines))
+
+            let video = TEDVideoModel(author: currentAuthor, title: currentTitle, duration: currentDuration, thumbnailURL: currentThumbnail)
             rssItems.append(video)
         }
     }

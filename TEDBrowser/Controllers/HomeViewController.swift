@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InfoViewController: UITableViewController, XMLParserDelegate {
+class HomeViewController: UITableViewController, XMLParserDelegate {
     var videos: [TEDVideoModel] = []
     
     let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -16,21 +16,11 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.tableView.addSubview(activityView)
+        self.view.backgroundColor = .black
         self.parent?.view.addSubview(activityView)
-        activityView.center = self.parent?.view.center as! CGPoint
+        activityView.center = (self.parent?.view.center)!
         activityView.color = .white
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-
-        
-//        setupTabBarItem()
+        activityView.startAnimating()
         
         tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoTableViewCell")
         tableView.rowHeight = 90
@@ -40,8 +30,12 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        activityView.center = tableView.center
-        activityView.startAnimating()
+        
+        self.parent?.navigationItem.title = "Все видео"
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        activityView.center = (self.parent?.view.center)!
     }
     
     func fetchData() {
@@ -77,7 +71,7 @@ class InfoViewController: UITableViewController, XMLParserDelegate {
         cell.videoTitle.text = videos[indexPath.row].title
         
         cell.thumbnailImage.image = UIImage(systemName: "video")
-        if let thumbnail = videos[indexPath.row].thumbnail,
+        if let thumbnail = videos[indexPath.row].thumbnailURL,
             let thumbnailURL = URL(string: thumbnail) {
             let thumbnailDataTask = URLSession.shared.dataTask(with: thumbnailURL) { (data, response, error) in
                 if let error = error {
