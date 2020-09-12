@@ -18,6 +18,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         self.parent?.view.addSubview(activityView)
+        
         activityView.center = (self.parent?.view.center)!
         activityView.color = .white
         activityView.startAnimating()
@@ -71,6 +72,8 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         cell.videoTitle.text = videos[indexPath.row].title
         
         cell.thumbnailImage.image = UIImage(systemName: "video")
+        cell.thumbnailImage.tintColor = .lightGray
+        
         if let thumbnail = videos[indexPath.row].thumbnailURL,
             let thumbnailURL = URL(string: thumbnail) {
             let thumbnailDataTask = URLSession.shared.dataTask(with: thumbnailURL) { (data, response, error) in

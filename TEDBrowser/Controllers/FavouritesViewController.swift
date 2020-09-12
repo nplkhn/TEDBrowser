@@ -10,7 +10,7 @@ import UIKit
 
 class FavouritesViewController: UITableViewController {
     
-    
+    var favouriteVideos: [TEDVideo] = []
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +18,7 @@ class FavouritesViewController: UITableViewController {
         tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoTableViewCell")
         tableView.rowHeight = 90
         self.view.backgroundColor = .black
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -35,12 +36,12 @@ class FavouritesViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return favouriteVideos.count
     }
 
     /*
