@@ -60,7 +60,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="authorName" destination="uR8-7B-9rD" id="Lef-7r-4fs"/>
-                <outlet property="duration" destination="xys-l1-ogN" id="qHs-m0-Pz3"/>
+                <outlet property="durationLabel" destination="xys-l1-ogN" id="qHs-m0-Pz3"/>
                 <outlet property="thumbnailImage" destination="4LF-Ak-3Od" id="OI0-GV-mlR"/>
                 <outlet property="videoTitle" destination="XI8-WS-v6z" id="jQl-WJ-ZRX"/>
             </connections>

@@ -7,52 +7,66 @@
 //
 
 import UIKit
+import CryptoKit
 
 class HomeViewController: UITableViewController, XMLParserDelegate {
-    var videos: [TEDVideoModel] = []
+    var videos: [TEDVideo] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.activityView.stopAnimating()
+            }
+        }
+    }
     
-    let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
-    
+    private let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
+    private var searchController: UISearchController?
+    private var searchResult = [TEDVideo]()
+    private var cache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         self.parent?.view.addSubview(activityView)
         
+        // defining search controller
+        searchController = UISearchController(searchResultsController: self)
+        searchController?.searchBar.sizeToFit()
+        searchController?.searchBar.barStyle = .black
+        searchController?.automaticallyShowsCancelButton = true
+        searchController?.searchResultsUpdater = self
+        
+        
+        
+        
         activityView.center = (self.parent?.view.center)!
         activityView.color = .white
         activityView.startAnimating()
         
-        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoTableViewCell")
+        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoCell")
         tableView.rowHeight = 90
-        fetchData()
+        
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.parent?.navigationItem.title = "Все видео"
+        self.parent?.navigationItem.searchController = searchController
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         activityView.center = (self.parent?.view.center)!
     }
     
-    func fetchData() {
-        let parser = FeedParser()
-        
-        parser.parseFeed(url: "https://www.ted.com/themes/rss/id") { videos in
-            self.videos = videos
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.activityView.stopAnimating()
-            }
-            
-            
-        }
-        
+    // MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let descriptionVC = DescriptionViewController(video: videos[indexPath.row])
+        self.present(descriptionVC, animated: true, completion: nil)
     }
+    
     
     // MARK: - Table view data source
     
@@ -65,70 +79,73 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TEDVideoTableViewCell", for: indexPath) as! TEDVideoTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TEDVideoCell", for: indexPath) as! TEDVideoTableViewCell
+        let video = videos[indexPath.row]
         
-        cell.duration.text = videos[indexPath.row].duration
-        cell.authorName.text = videos[indexPath.row].author
-        cell.videoTitle.text = videos[indexPath.row].title
+        cell.duration = video.duration!
+        cell.author = video.author!
+        cell.title = video.title!
         
-        cell.thumbnailImage.image = UIImage(systemName: "video")
-        cell.thumbnailImage.tintColor = .lightGray
+        cell.thumbnail = UIImage(systemName: "video")
         
-        if let thumbnail = videos[indexPath.row].thumbnailURL,
-            let thumbnailURL = URL(string: thumbnail) {
-            let thumbnailDataTask = URLSession.shared.dataTask(with: thumbnailURL) { (data, response, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                
-                if let thumbnailData = data {
-                    DispatchQueue.main.async {
-                        cell.thumbnailImage.image = UIImage(data: thumbnailData)
-                    }
-                }
-            }
-            thumbnailDataTask.resume()
-        }
-
-        
-        // Configure the cell...
+//        if cache.object(forKey: video.hash as NSString) != nil {
+//            cell.thumbnail = self.cache.object(forKey: video.hash as NSString)
+//        } else {
+//            let thumbnailURL = URL(string: video.thumbnailURL!)
+//            let thumbnailDataTask = URLSession.shared.dataTask(with: thumbnailURL!) { (data, response, error) in
+//                if let error = error {
+//                    print(error.localizedDescription)
+//                }
+//                self.cache.setObject(UIImage(data: data!)!, forKey: video.hash as NSString)
+//                DispatchQueue.main.async {
+//                    cell.thumbnail = UIImage(data: data!)!
+//                }
+//            }
+//            thumbnailDataTask.resume()
+//        }
         
         return cell
-     }
+    }
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
+}
+
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        //        // Update the filtered array based on the search text.
+        //        let searchResults = self.videos
+        //
+        //        // Strip out all the leading and trailing spaces.
+        //        let whitespaceCharacterSet = CharacterSet.whitespaces
+        //        let strippedString =
+        //            searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
+        //        let searchItems = strippedString.components(separatedBy: " ") as [String]
+        //
+        ////         Build all the "AND" expressions for each value in searchString.
+        //        let andMatchPredicates: [NSPredicate] = searchItems.map { searchString in
+        //            findMatches(searchString: searchString)
+        //        }
+        //
+        ////         Match up the fields of the Product object.
+        //        let finalCompoundPredicate =
+        //            NSCompoundPredicate(andPredicateWithSubpredicates: andMatchPredicates)
+        //
+        //        let filteredResults = searchResults.filter { finalCompoundPredicate.evaluate(with: $0) }
+        //
+        ////         Apply the filtered results to the search results table.
+        //        if let resultsController = searchController.searchResultsController as? HomeViewController {
+        //            resultsController.videos = filteredResults
+        //            resultsController.tableView.reloadData()
+        //
+        //        }
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
     
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
+    private func filterContentForSearchText(_ searchText: String) {
+        searchResult = videos.filter({ (video: TEDVideo) -> Bool in
+            return (video.title?.lowercased().contains(searchText.lowercased()))!// || (video.author?.contains(searchText.lowercased()))!
+        })
+        
+        tableView.reloadData()
+    }
 }

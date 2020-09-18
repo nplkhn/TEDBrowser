@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UITabBarController {
     
-    private var infoVC: HomeViewController {
-        let infoVC = HomeViewController()
+    private var homeVC: HomeViewController {
+        let homeVC = HomeViewController()
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        infoVC.tabBarItem = tabBarItem
-        return infoVC
+        homeVC.tabBarItem = tabBarItem
+        return homeVC
     }
     
     private var favouritesVC: FavouritesViewController {
@@ -23,13 +24,13 @@ class MainViewController: UITabBarController {
         favouritesVC.tabBarItem = tabBarItem
         return favouritesVC
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         
-        self.viewControllers = [infoVC, favouritesVC]
-        // Do any additional setup after loading the view.
+        self.viewControllers = [homeVC, favouritesVC]
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,18 +44,5 @@ class MainViewController: UITabBarController {
         tabBar.barTintColor = .black
         tabBar.tintColor = .lightGray
         
-        
-        
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.sizeToFit()
-        searchController.searchBar.searchTextField.textColor = .white
-        
-        searchController.automaticallyShowsCancelButton = true
-        navigationItem.searchController = searchController
-        
-        
     }
-
-
 }
-

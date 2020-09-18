@@ -10,15 +10,22 @@ import Foundation
 
 
 class TEDVideo {
-    var author: String
-    var duration: String
-    var thumbnailURL: String
-    var title: String
+    var title: String?
+    var author: String?
+    var duration: String?
+    var thumbnailURL: String?
+    var videoURL: String?
+    var videoID: String?
+    var videoDescription: String?
+    var isFavourite: Bool = false
     
-    init(video: TEDVideoModel) {
-        author = video.author!
-        duration = video.duration!
-        thumbnailURL = video.thumbnailURL!
-        title = video.title!
+    init(title: String, author: String, duration: String, thumbnailURL: String, videoURL: String, videoID: String, videoDescription: String) {
+        self.title = title
+        self.author = author
+        self.duration = duration
+        self.thumbnailURL = thumbnailURL
+        self.videoURL = videoURL
+        self.videoID = videoID
+        self.videoDescription = videoDescription
     }
 }

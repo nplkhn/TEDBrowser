@@ -9,7 +9,7 @@
 import Foundation
 
 class FeedParser:NSObject {
-    private var rssItems: [TEDVideoModel] = []
+    private var rssItems: [TEDVideo] = []
     private var currentElement = ""
     private var currentTitle: String = "" {
         didSet {
@@ -28,10 +28,14 @@ class FeedParser:NSObject {
         }
     }
     
-    private var parserCompleteionHandler: (([TEDVideoModel]) -> Void)?
+    private var currentLink: String = ""
+    private var currentID: String = ""
+    private var currentDescription: String = ""
+    
+    private var parserCompleteionHandler: (([TEDVideo]) -> Void)?
     
     
-    func parseFeed(url: String, completetionHandler: (([TEDVideoModel]) -> Void)?) {
+    func parseFeed(url: String, completetionHandler: (([TEDVideo]) -> Void)?) {
         self.parserCompleteionHandler = completetionHandler
         
         let request = URLRequest(url: URL(string: url)!)
@@ -81,6 +85,9 @@ extension FeedParser: XMLParserDelegate {
             }
             
         case "itunes:duration": currentDuration += string
+        case "link": currentLink += string
+        case "guid": currentID += string
+        case "description": currentDescription += string
         default: break
         }
     }
@@ -97,13 +104,12 @@ extension FeedParser: XMLParserDelegate {
             
             currentAuthor = currentAuthor.trimmingCharacters(in: CharacterSet(charactersIn: ",").union(CharacterSet.whitespacesAndNewlines))
 
-            let video = TEDVideoModel(author: currentAuthor, title: currentTitle, duration: currentDuration, thumbnailURL: currentThumbnail)
+            let video = TEDVideo(title: currentTitle, author: currentAuthor, duration: currentDuration, thumbnailURL: currentThumbnail, videoURL: currentLink, videoID: currentID, videoDescription: currentDescription)
             rssItems.append(video)
         }
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
         parserCompleteionHandler?(rssItems)
-        
     }
 }

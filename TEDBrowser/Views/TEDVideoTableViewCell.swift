@@ -9,10 +9,35 @@
 import UIKit
 
 class TEDVideoTableViewCell: UITableViewCell {
-    @IBOutlet weak var thumbnailImage: UIImageView!
-    @IBOutlet weak var authorName: UILabel!
-    @IBOutlet weak var duration: UILabel!
-    @IBOutlet weak var videoTitle: UILabel!
+    @IBOutlet private weak var thumbnailImage: UIImageView!
+    @IBOutlet private weak var authorName: UILabel!
+    @IBOutlet private weak var durationLabel: UILabel!
+    @IBOutlet private weak var videoTitle: UILabel!
+    
+    public var title: String = "" {
+        didSet {
+            videoTitle.text = title
+        }
+    }
+    
+    public var author: String = "" {
+        didSet {
+            authorName.text = author
+        }
+    }
+    
+    public var duration: String = "" {
+        didSet {
+            durationLabel.text = duration
+        }
+    }
+    
+    public var thumbnail: UIImage? {
+        didSet {
+            thumbnailImage.image = thumbnail
+            thumbnailImage.tintColor = .lightGray
+        }
+    }
     
     
     override func awakeFromNib() {
