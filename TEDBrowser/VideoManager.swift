@@ -20,9 +20,10 @@ class VideoManager {
     var allVideos: [TEDVideo] = [] {
         didSet {
             checkForFavourites()
+            self.allVideosCompletionHandler!(self.allVideos)
         }
     }
-    let cache = NSCache<NSString, UIImage>()
+    static let cache = NSCache<NSString, UIImage>()
     
     var allVideosCompletionHandler: (([TEDVideo]) -> Void)?
     var favouriteVideosCompletionHandler: (([NSManagedObject]) -> Void)?
@@ -54,41 +55,27 @@ class VideoManager {
         let parser = FeedParser()
         parser.parseFeed(url: "https://www.ted.com/themes/rss/id") { (allVideos) in
             self.allVideos = allVideos
-            self.fetchAndCacheThumbnailImages()
         }
     }
     
-    func fetchAndCacheThumbnailImages() {
-        DispatchQueue.global(qos: .userInteractive).async {
-            for video in self.allVideos {
-                let session = URLSession.shared
-                session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, _, error) in
-                    if let imageData = imageData {
-                        guard error != nil else {
-                            print("Error while fetching thumbnail image")
-                            return
-                        }
-                        self.cache.setObject(UIImage(data: imageData)!, forKey: NSString(string: video.videoID!))
-                    }
-                }
-            }
-            self.allVideosCompletionHandler!(self.allVideos)
-        }
-        
-                
-    }
-    
-    func fetchAndCacheThumbnailImage(for video: TEDVideo) {
+    static func fetchAndCacheThumbnailImage(for video: TEDVideo, with completionHandler: @escaping (UIImage) -> Void) {
         let session = URLSession.shared
-        session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, _, error) in
+        let task = session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, response, error) in
             if let imageData = imageData {
-                guard error != nil else {
-                    print("Error while fetching thumbnail image")
+                guard error == nil else {
+                    print("Error while fetching thumbnail image\n\(String(describing: error?.localizedDescription))")
                     return
                 }
-                self.cache.setObject(UIImage(data: imageData)!, forKey: NSString(string: video.videoID!))
+                if let image = UIImage(data: imageData) {
+                    VideoManager.cache.setObject(image, forKey: NSString(string: video.videoID!))
+                    completionHandler(image)
+                } else {
+                    completionHandler(UIImage(systemName: "video")!)
+                }
+
             }
         }
+        task.resume()
     }
     
     func checkForFavourites() {

@@ -71,22 +71,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1CA8E348-74D9-4D55-B0B1-1DD23F4A3089"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TEDBrowser/Controllers/MainViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "2F50E2F6-1D0F-45B3-B45C-20B842CD491F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -94,8 +78,8 @@
             filePath = "TEDBrowser/Controllers/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -103,17 +87,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F5D16B73-60A5-4EA0-9C5A-3D28AFAB7338"
-            shouldBeEnabled = "Yes"
+            uuid = "A5E9F98F-F103-4EC1-8A81-A6E97A9DCCF9"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TEDBrowser/VideoManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "fetchAndCacheThumbnailImages()"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "fetchAndCacheThumbnailImage(for:with:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7EA7F413-4419-4266-B24B-317BF28F04DF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TEDBrowser/VideoManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "fetchAndCacheThumbnailImage(for:with:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7EA7F413-4419-4266-B24B-317BF28F04DF - b6d25cd6c7fcf547"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static TEDBrowser.VideoManager.fetchAndCacheThumbnailImage(for: TEDBrowser.TEDVideo, with: (__C.UIImage) -&gt; ()) -&gt; ()"
+                  moduleName = "TEDBrowser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/VideoManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "210">
+               </Location>
+               <Location
+                  uuid = "7EA7F413-4419-4266-B24B-317BF28F04DF - 41107e59804acc84"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static TEDBrowser.VideoManager.fetchAndCacheThumbnailImage(for: TEDBrowser.TEDVideo, with: (__C.UIImage) -&gt; ()) -&gt; ()"
+                  moduleName = "TEDBrowser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/VideoManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "302">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

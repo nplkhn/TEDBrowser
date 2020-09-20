@@ -85,23 +85,15 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         cell.author = video.author!
         cell.title = video.title!
         
-        cell.thumbnail = cache.object(forKey: video.videoID! as NSString) ?? UIImage(systemName: "video")
-        
-//        if cache.object(forKey: video.hash as NSString) != nil {
-//            cell.thumbnail = self.cache.object(forKey: video.hash as NSString)
-//        } else {
-//            let thumbnailURL = URL(string: video.thumbnailURL!)
-//            let thumbnailDataTask = URLSession.shared.dataTask(with: thumbnailURL!) { (data, response, error) in
-//                if let error = error {
-//                    print(error.localizedDescription)
-//                }
-//                self.cache.setObject(UIImage(data: data!)!, forKey: video.hash as NSString)
-//                DispatchQueue.main.async {
-//                    cell.thumbnail = UIImage(data: data!)!
-//                }
-//            }
-//            thumbnailDataTask.resume()
-//        }
+        if let cachedImage = cache.object(forKey: video.videoID! as NSString) {
+            cell.thumbnail = cachedImage
+        } else {
+            VideoManager.fetchAndCacheThumbnailImage(for: video) { (image) in
+                DispatchQueue.main.async {
+                    cell.thumbnail = image
+                }
+            }
+        }
         
         return cell
     }

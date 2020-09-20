@@ -22,12 +22,11 @@ class MainViewController: UITabBarController {
         
         
         videoManager = VideoManager({ (videos) in
-            self.homeVC.cache = self.videoManager?.cache
             self.homeVC.videos = videos
         }, { (videos) in
             self.favouritesVC.videos = videos
         })
-        self.homeVC.cache = videoManager?.cache
+        self.homeVC.cache = VideoManager.cache
         
         setupViewControllers()
         
