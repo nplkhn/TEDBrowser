@@ -11,26 +11,34 @@ import CoreData
 
 class MainViewController: UITabBarController {
     
-    private var homeVC: HomeViewController {
-        let homeVC = HomeViewController()
-        let tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        homeVC.tabBarItem = tabBarItem
-        return homeVC
-    }
-    
-    private var favouritesVC: FavouritesViewController {
-        let favouritesVC = FavouritesViewController()
-        let tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
-        favouritesVC.tabBarItem = tabBarItem
-        return favouritesVC
-    }
+    private var homeVC: HomeViewController = HomeViewController()
+    private var favouritesVC: FavouritesViewController = FavouritesViewController()
+    private var videoManager: VideoManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         
+        
+        
+        videoManager = VideoManager({ (videos) in
+            self.homeVC.cache = self.videoManager?.cache
+            self.homeVC.videos = videos
+        }, { (videos) in
+            self.favouritesVC.videos = videos
+        })
+        self.homeVC.cache = videoManager?.cache
+        
+        setupViewControllers()
+        
         self.viewControllers = [homeVC, favouritesVC]
         
+    }
+    
+    private func setupViewControllers() {
+        homeVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        
+        favouritesVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
     }
     
     override func viewWillAppear(_ animated: Bool) {

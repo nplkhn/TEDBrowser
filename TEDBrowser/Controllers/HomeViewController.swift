@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CryptoKit
 
 class HomeViewController: UITableViewController, XMLParserDelegate {
     var videos: [TEDVideo] = [] {
@@ -22,7 +21,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     private let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
     private var searchController: UISearchController?
     private var searchResult = [TEDVideo]()
-    private var cache = NSCache<NSString, UIImage>()
+    public var cache: NSCache<NSString, UIImage>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +85,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         cell.author = video.author!
         cell.title = video.title!
         
-        cell.thumbnail = UIImage(systemName: "video")
+        cell.thumbnail = cache.object(forKey: video.videoID! as NSString) ?? UIImage(systemName: "video")
         
 //        if cache.object(forKey: video.hash as NSString) != nil {
 //            cell.thumbnail = self.cache.object(forKey: video.hash as NSString)

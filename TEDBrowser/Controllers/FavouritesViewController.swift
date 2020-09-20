@@ -11,7 +11,7 @@ import CoreData
 
 class FavouritesViewController: UITableViewController {
     
-    private var favouriteVideos: [NSManagedObject] = [] {
+    var videos: [NSManagedObject] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -43,7 +43,7 @@ class FavouritesViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return favouriteVideos.count
+        return videos.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

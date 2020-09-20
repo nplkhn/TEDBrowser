@@ -12,13 +12,29 @@ import UIKit
 
 class VideoManager {
     
-    var favouriteVideos: [NSManagedObject] = []
+    var favouriteVideos: [NSManagedObject] = [] {
+        didSet {
+            self.favouriteVideosCompletionHandler?(favouriteVideos)
+        }
+    }
     var allVideos: [TEDVideo] = [] {
         didSet {
             checkForFavourites()
         }
     }
     let cache = NSCache<NSString, UIImage>()
+    
+    var allVideosCompletionHandler: (([TEDVideo]) -> Void)?
+    var favouriteVideosCompletionHandler: (([NSManagedObject]) -> Void)?
+    
+    init(_ allVideosCompletionHandler: @escaping ([TEDVideo]) -> Void, _ favouriteVideosCompletionHandler: @escaping ([NSManagedObject]) -> Void) {
+        fetchFavourites()
+        fetchAllVideos()
+        
+        
+        self.allVideosCompletionHandler = allVideosCompletionHandler
+        self.favouriteVideosCompletionHandler = favouriteVideosCompletionHandler
+    }
     
     private func fetchFavourites() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -43,18 +59,23 @@ class VideoManager {
     }
     
     func fetchAndCacheThumbnailImages() {
-        for video in allVideos {
-            let session = URLSession.shared
-            session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, _, error) in
-                if let imageData = imageData {
-                    guard error != nil else {
-                        print("Error while fetching thumbnail image")
-                        return
+        DispatchQueue.global(qos: .userInteractive).async {
+            for video in self.allVideos {
+                let session = URLSession.shared
+                session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, _, error) in
+                    if let imageData = imageData {
+                        guard error != nil else {
+                            print("Error while fetching thumbnail image")
+                            return
+                        }
+                        self.cache.setObject(UIImage(data: imageData)!, forKey: NSString(string: video.videoID!))
                     }
-                    self.cache.setObject(UIImage(data: imageData)!, forKey: NSString(string: video.videoID!))
                 }
             }
+            self.allVideosCompletionHandler!(self.allVideos)
         }
+        
+                
     }
     
     func fetchAndCacheThumbnailImage(for video: TEDVideo) {
@@ -68,12 +89,6 @@ class VideoManager {
                 self.cache.setObject(UIImage(data: imageData)!, forKey: NSString(string: video.videoID!))
             }
         }
-    }
-    
-    init(_ completionHandler: (_ allVideos: [TEDVideo], _ favouriteVideos: [NSManagedObject]) -> Void) {
-        fetchAllVideos()
-        fetchFavourites()
-        completionHandler(allVideos, favouriteVideos)
     }
     
     func checkForFavourites() {
