@@ -26,7 +26,6 @@ class MainViewController: UITabBarController {
         }, { (videos) in
             self.favouritesVC.videos = videos
         })
-        self.homeVC.cache = VideoManager.cache
         
         setupViewControllers()
         

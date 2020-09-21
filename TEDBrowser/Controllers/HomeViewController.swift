@@ -21,7 +21,6 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     private let activityView: UIActivityIndicatorView = UIActivityIndicatorView()
     private var searchController: UISearchController?
     private var searchResult = [TEDVideo]()
-    public var cache: NSCache<NSString, UIImage>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,8 +61,10 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let descriptionVC = DescriptionViewController(video: videos[indexPath.row])
-        self.present(descriptionVC, animated: true, completion: nil)
+        let descriptionVC = DescriptionViewController()
+        descriptionVC.video = videos[indexPath.row]
+        self.show(descriptionVC, sender: nil)
+//        self.present(descriptionVC, animated: true, completion: nil)
     }
     
     
@@ -85,7 +86,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         cell.author = video.author!
         cell.title = video.title!
         
-        if let cachedImage = cache.object(forKey: video.videoID! as NSString) {
+        if let cachedImage = VideoManager.cache.object(forKey: video.videoID! as NSString) {
             cell.thumbnail = cachedImage
         } else {
             VideoManager.fetchAndCacheThumbnailImage(for: video) { (image) in
