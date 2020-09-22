@@ -74,6 +74,8 @@ extension FeedParser: XMLParserDelegate {
             currentAuthor = ""
             currentDuration = ""
             currentThumbnail = ""
+            currentID = ""
+            currentDescription = ""
         } else if currentElement == "itunes:image" {
             currentThumbnail = attributeDict["url"]!
         }
