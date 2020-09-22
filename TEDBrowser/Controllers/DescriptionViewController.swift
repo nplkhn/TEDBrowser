@@ -56,14 +56,11 @@ class DescriptionViewController: UIViewController {
         
         // setup like button
         self.likeButton.setImage(UIImage(systemName: "heart")!.withTintColor(.lightGray, renderingMode: .alwaysTemplate), for: .normal)
-        self.likeButton.sizeThatFits(CGSize(width: 40, height: 40))
-        self.likeButton.contentMode = .scaleAspectFit
         self.likeButton.tintColor = .lightGray
         
         
         // setup share button
         self.shareButton.setImage(UIImage(systemName: "square.and.arrow.up")?.withTintColor(.lightGray, renderingMode: .alwaysTemplate), for: .normal)
-        self.shareButton.contentMode = .scaleAspectFit
         self.shareButton.tintColor = .lightGray
         
         
@@ -86,11 +83,13 @@ class DescriptionViewController: UIViewController {
         // setup description text view
         self.descriptionTextView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         self.descriptionTextView.textColor = .lightGray
+        self.descriptionTextView.backgroundColor = .black
         
         // setup container stack view
         self.containerStack = UIStackView(arrangedSubviews: [self.imageView, self.titleLabel, self.authorLabel, self.buttonStack, self.infoLabel, self.descriptionTextView])
         self.containerStack.axis = .vertical
-        self.containerStack.distribution = .fill
+        self.containerStack.distribution = .fillProportionally
+        
         self.containerStack.alignment = .leading
         self.containerStack.spacing = 10
         self.containerStack.setCustomSpacing(40, after: self.authorLabel)
@@ -98,10 +97,15 @@ class DescriptionViewController: UIViewController {
         
         self.view.addSubview(self.containerStack)
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: self.imageView, attribute: .width, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .width, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.imageView, attribute: .height, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .width, multiplier: 9/16, constant: 0),
+            // thumbnail image
+            NSLayoutConstraint(item: self.imageView, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.imageView, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 9/16, constant: 0),
             
+            // text view
+            NSLayoutConstraint(item: self.descriptionTextView, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .height, multiplier: 0.4, constant: 0),
+            NSLayoutConstraint(item: self.descriptionTextView, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
             
+            // container stack view
             NSLayoutConstraint(item: self.containerStack!, attribute: .leading, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.containerStack!, attribute: .top, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.containerStack!, attribute: .trailing, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .trailing, multiplier: 1, constant: 0),
