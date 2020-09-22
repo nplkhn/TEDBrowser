@@ -30,7 +30,11 @@ class FeedParser:NSObject {
     
     private var currentLink: String = ""
     private var currentID: String = ""
-    private var currentDescription: String = ""
+    private var currentDescription: String = "" {
+        didSet {
+            currentDescription = currentDescription.trimmingCharacters(in: CharacterSet.whitespaces)
+        }
+    }
     
     private var parserCompleteionHandler: (([TEDVideo]) -> Void)?
     
