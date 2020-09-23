@@ -52,6 +52,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         super.viewWillAppear(animated)
         self.parent?.navigationItem.title = "Все видео"
         self.parent?.navigationItem.searchController = searchController
+//        self.parent?.navigationItem.
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -63,8 +64,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let descriptionVC = DescriptionViewController()
         descriptionVC.video = videos[indexPath.row]
-        self.show(descriptionVC, sender: nil)
-//        self.present(descriptionVC, animated: true, completion: nil)
+        self.present(descriptionVC, animated: true, completion: nil)
     }
     
     
