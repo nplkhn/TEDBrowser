@@ -60,7 +60,6 @@ class DescriptionViewController: UIViewController {
     }()
     private var infoStack: UIStackView!
     private var containerStack: UIStackView!
-    private var horizontalScrollView: UIScrollView?
     
     var video: TEDVideo! {
         didSet {
@@ -92,17 +91,17 @@ class DescriptionViewController: UIViewController {
         // setup button stack view
         self.buttonStack = UIStackView(arrangedSubviews: [self.likeButton, self.shareButton])
         self.buttonStack.axis = .horizontal
-        self.buttonStack.distribution = .fill
+        self.buttonStack.distribution = .fillEqually
         self.buttonStack.alignment = .leading
-        self.buttonStack.spacing = 10
+        self.buttonStack.spacing = 20
         
         // info stack setup
         self.infoStack = UIStackView(arrangedSubviews: [self.titleLabel, self.authorLabel, self.buttonStack, self.infoLabel, self.descriptionTextView])
         self.infoStack.axis = .vertical
-//        self.infoStack.spacing =
         self.infoStack.distribution = .fill
         self.infoStack.alignment = .leading
         self.infoStack.setCustomSpacing(40, after: self.authorLabel)
+        self.infoStack.setCustomSpacing(20, after: self.buttonStack)
         
         // setup container stack view
         self.containerStack = UIStackView(arrangedSubviews: [self.imageView, self.infoStack])
@@ -122,10 +121,6 @@ class DescriptionViewController: UIViewController {
             // info stack
             NSLayoutConstraint(item: self.descriptionTextView, attribute: .leading, relatedBy: .equal, toItem: self.containerStack, attribute: .leading, multiplier: 1, constant: 10),
             NSLayoutConstraint(item: self.descriptionTextView, attribute: .trailing, relatedBy: .equal, toItem: self.containerStack, attribute: .trailing, multiplier: 1, constant: -10),
-            
-            // text view
-            NSLayoutConstraint(item: self.descriptionTextView, attribute: .height, relatedBy: .equal, toItem: self.infoStack, attribute: .height, multiplier: 0.4, constant: 0),
-            NSLayoutConstraint(item: self.descriptionTextView, attribute: .width, relatedBy: .equal, toItem: self.infoStack, attribute: .width, multiplier: 1, constant: 0),
             
             // container stack view
             NSLayoutConstraint(item: self.containerStack!, attribute: .leading, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1, constant: 0),
