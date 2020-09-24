@@ -31,6 +31,8 @@ class DescriptionViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "heart")!.withTintColor(.lightGray, renderingMode: .alwaysTemplate), for: .normal)
         button.tintColor = .lightGray
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
         return button
     }()
     
@@ -38,6 +40,8 @@ class DescriptionViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "square.and.arrow.up")!.withTintColor(.lightGray, renderingMode: .alwaysTemplate), for: .normal)
         button.tintColor = .lightGray
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
         return button
     }()
     
@@ -117,6 +121,12 @@ class DescriptionViewController: UIViewController {
             // thumbnail image
             NSLayoutConstraint(item: self.imageView, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.imageView, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 9/16, constant: 0),
+            
+            // button size
+            NSLayoutConstraint(item: self.likeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 30),
+            NSLayoutConstraint(item: self.likeButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 30),
+            NSLayoutConstraint(item: self.shareButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 30),
+            NSLayoutConstraint(item: self.shareButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 30),
             
             // info stack
             NSLayoutConstraint(item: self.descriptionTextView, attribute: .leading, relatedBy: .equal, toItem: self.containerStack, attribute: .leading, multiplier: 1, constant: 10),
