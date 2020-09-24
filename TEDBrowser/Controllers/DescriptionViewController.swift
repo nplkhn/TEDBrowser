@@ -10,6 +10,7 @@ import UIKit
 
 class DescriptionViewController: UIViewController {
     
+    private var currentConstraints = [NSLayoutConstraint]()
     private var imageView: UIImageView = UIImageView()
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -50,6 +51,11 @@ class DescriptionViewController: UIViewController {
         label.text = "Информация"
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.textColor = .lightGray
+        label.sizeToFit()
+        let bottomRedLine = CALayer()
+        bottomRedLine.frame = CGRect(x: 0, y: label.frame.size.height - 2, width: label.frame.width, height: 2)
+        bottomRedLine.backgroundColor = UIColor.systemRed.cgColor
+        label.layer.addSublayer(bottomRedLine)
         return label
     }()
     
@@ -78,14 +84,6 @@ class DescriptionViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let bottomRedLine = CALayer()
-        bottomRedLine.frame = CGRect(x: 0, y: infoLabel.frame.size.height - 2, width: infoLabel.frame.width, height: 2)
-        bottomRedLine.backgroundColor = UIColor.systemRed.cgColor
-        infoLabel.layer.addSublayer(bottomRedLine)
     }
     
     func setupView() {
@@ -117,7 +115,7 @@ class DescriptionViewController: UIViewController {
         self.containerStack.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(self.containerStack)
-        NSLayoutConstraint.activate([
+        currentConstraints = [
             // thumbnail image
             NSLayoutConstraint(item: self.imageView, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.imageView, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 9/16, constant: 0),
@@ -137,6 +135,20 @@ class DescriptionViewController: UIViewController {
             NSLayoutConstraint(item: self.containerStack!, attribute: .top, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.containerStack!, attribute: .trailing, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .trailing, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: self.containerStack!, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0),
-        ])
+        ]
+        NSLayoutConstraint.activate(currentConstraints)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+
+        if UIDevice.current.orientation.isPortrait {
+            containerStack.addArrangedSubview(self.infoStack)
+            let constraints = Array(currentConstraints[0...7])
+            NSLayoutConstraint.activate(constraints)
+        } else {
+            let constraints = Array(currentConstraints[0...7])
+            NSLayoutConstraint.deactivate(constraints)
+            self.infoStack.removeFromSuperview()
+        }
     }
 }
