@@ -7,23 +7,24 @@
 //
 
 import UIKit
-import CoreData
 
 class MainViewController: UITabBarController {
     
     private var homeVC: HomeViewController = HomeViewController()
     private var favouritesVC: FavouritesViewController = FavouritesViewController()
-    private var videoManager: VideoManager?
+    private var videoManager = VideoManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         
         
-        
-        videoManager = VideoManager({ (videos) in
+        DispatchQueue.main.async {
+            VideoManager.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        }
+        VideoManager.fetchVideos(allVideosCompletionHandler: { (videos) in
             self.homeVC.videos = videos
-        }, { (videos) in
+        }, favouriteVideosCompletionHandler: { (videos) in
             self.favouritesVC.videos = videos
         })
         

@@ -82,14 +82,15 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TEDVideoCell", for: indexPath) as! TEDVideoTableViewCell
         let video = videos[indexPath.row]
         
-        cell.duration = video.duration!
-        cell.author = video.author!
-        cell.title = video.title!
+        cell.duration = video.duration
+        cell.author = video.author
+        cell.title = video.title
         
-        if let cachedImage = VideoManager.cache.object(forKey: video.videoID! as NSString) {
+        if let cachedImage = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) {
             cell.thumbnail = cachedImage
         } else {
-            VideoManager.fetchAndCacheThumbnailImage(for: video) { (image) in
+            cell.thumbnail = UIImage(systemName: "video")
+            VideoManager.fetchThumbnail(for: video) { (image) in
                 DispatchQueue.main.async {
                     cell.thumbnail = image
                 }
@@ -135,7 +136,7 @@ extension HomeViewController: UISearchResultsUpdating {
     
     private func filterContentForSearchText(_ searchText: String) {
         searchResult = videos.filter({ (video: TEDVideo) -> Bool in
-            return (video.title?.lowercased().contains(searchText.lowercased()))!// || (video.author?.contains(searchText.lowercased()))!
+            return (video.title.lowercased().contains(searchText.lowercased()))// || (video.author?.contains(searchText.lowercased()))!
         })
         
         tableView.reloadData()

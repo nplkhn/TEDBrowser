@@ -30,12 +30,11 @@ class DescriptionViewController: UIViewController {
     private var buttonStack: UIStackView!
     private var likeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart")!.withTintColor(.lightGray, renderingMode: .alwaysTemplate), for: .normal)
         button.tintColor = .lightGray
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         return button
-    }()
+        }()
     
     private var shareButton: UIButton = {
         let button = UIButton()
@@ -76,7 +75,8 @@ class DescriptionViewController: UIViewController {
             titleLabel.text = video.title
             authorLabel.text = video.author
             descriptionTextView.text = video.videoDescription
-            imageView.image = VideoManager.cache.object(forKey: video.videoID! as NSString) ?? UIImage(systemName: "video")
+            imageView.image = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) ?? UIImage(systemName: "video")
+            likeButton.setImage(video.isFavourite! ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         }
     }
     
@@ -137,6 +137,8 @@ class DescriptionViewController: UIViewController {
             NSLayoutConstraint(item: self.containerStack!, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0),
         ]
         NSLayoutConstraint.activate(currentConstraints)
+        
+        self.likeButton.addTarget(self, action: #selector(self.toggleFavourite), for: .touchUpInside)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -150,5 +152,11 @@ class DescriptionViewController: UIViewController {
             NSLayoutConstraint.deactivate(constraints)
             self.infoStack.removeFromSuperview()
         }
+    }
+    
+    @objc private func toggleFavourite() {
+        self.video.isFavourite! ? VideoManager.addToFavourites(video: self.video) : VideoManager.removeFromFavourites(video: self.video)
+        
+        self.video.isFavourite = !self.video.isFavourite!
     }
 }

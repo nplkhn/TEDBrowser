@@ -1,90 +1,115 @@
 //
-//  VideoManager.swift
+//  VideoManager1.swift
 //  TEDBrowser
 //
-//  Created by Никита Плахин on 9/18/20.
+//  Created by Никита Плахин on 9/28/20.
 //  Copyright © 2020 Никита Плахин. All rights reserved.
 //
 
 import Foundation
-import CoreData
 import UIKit
+import CoreData
 
 class VideoManager {
+    // Core data
+    static var context: NSManagedObjectContext?
+
+    static var entity: NSEntityDescription {
+        NSEntityDescription.entity(forEntityName: "TEDVideo", in: context!)!
+    }
     
-    var favouriteVideos: [NSManagedObject] = [] {
+    // Video data
+    static var favouriteVideos = [TEDVideo]() {
         didSet {
-            self.favouriteVideosCompletionHandler?(favouriteVideos)
+            favouriteVideosCompletionHandler?(favouriteVideos)
         }
     }
-    var allVideos: [TEDVideo] = [] {
+    static var allVideos = [TEDVideo]() {
         didSet {
-            checkForFavourites()
-            self.allVideosCompletionHandler!(self.allVideos)
+            allVideosCompletionHandler?(allVideos)
         }
     }
-    static let cache = NSCache<NSString, UIImage>()
+    static let cache = NSCache<NSNumber, UIImage>()
     
-    var allVideosCompletionHandler: (([TEDVideo]) -> Void)?
-    var favouriteVideosCompletionHandler: (([NSManagedObject]) -> Void)?
+    // Completion handlers
+    private static var allVideosCompletionHandler: (([TEDVideo]) -> Void)?
+    private static var favouriteVideosCompletionHandler: (([TEDVideo]) -> Void)?
     
-    init(_ allVideosCompletionHandler: @escaping ([TEDVideo]) -> Void, _ favouriteVideosCompletionHandler: @escaping ([NSManagedObject]) -> Void) {
-        fetchFavourites()
+    // getting data
+    static func fetchVideos(allVideosCompletionHandler: (([TEDVideo]) -> Void)?, favouriteVideosCompletionHandler: (([TEDVideo]) -> Void)?) {
+        
         fetchAllVideos()
+        fetchFavouriteVideos()
         
-        
-        self.allVideosCompletionHandler = allVideosCompletionHandler
-        self.favouriteVideosCompletionHandler = favouriteVideosCompletionHandler
+        VideoManager.allVideosCompletionHandler = allVideosCompletionHandler
+        VideoManager.favouriteVideosCompletionHandler = favouriteVideosCompletionHandler
     }
     
-    private func fetchFavourites() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
+    private static func fetchAllVideos() {
+        let parser = FeedParser()
+        
+        parser.parseFeed(url: "https://www.ted.com/themes/rss/id") { (allVideos) in
+            self.allVideos = allVideos
+            checkFavourites()
         }
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TEDVideo")
+    }
+    
+    private static func fetchFavouriteVideos() {
+        let fetchRequest:NSFetchRequest<TEDVideo> = TEDVideo.fetchRequest()
         
         do {
-            self.favouriteVideos = try context.fetch(fetchRequest)
+            favouriteVideos = try (context?.fetch(fetchRequest)) ?? []
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    private func fetchAllVideos() {
-        let parser = FeedParser()
-        parser.parseFeed(url: "https://www.ted.com/themes/rss/id") { (allVideos) in
-            self.allVideos = allVideos
+    private static func checkFavourites() {
+        allVideos.forEach { (video) in
+            if favouriteVideos.contains(video) {
+                video.isFavourite = true
+            } else {
+                video.isFavourite = false
+            }
         }
     }
     
-    static func fetchAndCacheThumbnailImage(for video: TEDVideo, with completionHandler: @escaping (UIImage) -> Void) {
-        let session = URLSession.shared
-        let task = session.dataTask(with: URL(string: video.thumbnailURL!)!) { (imageData, response, error) in
+    // fetching thumbnail images
+    static func fetchThumbnail(for video: TEDVideo, completionHandler: @escaping (UIImage) -> Void) {
+        let task = URLSession.shared.dataTask(with: URL(string: video.thumbnail)!) { (imageData, _, error) in
             if let imageData = imageData {
                 guard error == nil else {
-                    print("Error while fetching thumbnail image\n\(String(describing: error?.localizedDescription))")
                     return
                 }
                 if let image = UIImage(data: imageData) {
-                    VideoManager.cache.setObject(image, forKey: NSString(string: video.videoID!))
+                    VideoManager.cache.setObject(image, forKey: video.title.hashValue as NSNumber)
                     completionHandler(image)
                 } else {
                     completionHandler(UIImage(systemName: "video")!)
                 }
-
             }
         }
         task.resume()
     }
     
-    func checkForFavourites() {
-        for idx in 0...allVideos.count {
-            if favouriteVideos.contains(where: { (video) -> Bool in
-                return ((video.value(forKey: "videoID") as? String) == allVideos[idx].videoID)
-            }) {
-                allVideos[idx].isFavourite = true
-            }
+    // Manage favourites
+    static func addToFavourites(video: TEDVideo) {
+        favouriteVideos.append(video)
+        do {
+            try context?.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    static func removeFromFavourites(video: TEDVideo) {
+        favouriteVideos.removeAll(where: { (videoElement) -> Bool in
+            video == videoElement
+        })
+        do {
+            try context?.save()
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

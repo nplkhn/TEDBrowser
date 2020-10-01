@@ -76,6 +76,7 @@ extension FeedParser: XMLParserDelegate {
             currentThumbnail = ""
             currentID = ""
             currentDescription = ""
+            currentLink = ""
         } else if currentElement == "itunes:image" {
             currentThumbnail = attributeDict["url"]!
         }
@@ -110,7 +111,13 @@ extension FeedParser: XMLParserDelegate {
             
             currentAuthor = currentAuthor.trimmingCharacters(in: CharacterSet(charactersIn: ",").union(CharacterSet.whitespacesAndNewlines))
 
-            let video = TEDVideo(title: currentTitle, author: currentAuthor, duration: currentDuration, thumbnailURL: currentThumbnail, videoURL: currentLink, videoID: currentID, videoDescription: currentDescription)
+            let video = TEDVideo(entity: VideoManager.entity, insertInto: nil)
+            video.author = currentAuthor
+            video.duration = currentDuration
+            video.title = currentTitle
+            video.thumbnail = currentThumbnail
+            video.videoDescription = currentDescription
+            
             rssItems.append(video)
         }
     }

@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import CoreData
 
 class FavouritesViewController: UITableViewController {
     
-    var videos: [NSManagedObject] = [] {
+    var videos: [TEDVideo] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
