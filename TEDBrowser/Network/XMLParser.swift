@@ -11,11 +11,7 @@ import Foundation
 class FeedParser:NSObject {
     private var rssItems: [TEDVideo] = []
     private var currentElement = ""
-    private var currentTitle: String = "" {
-        didSet {
-            currentTitle = currentTitle.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        }
-    }
+    
     private var currentAuthor: String = ""
     private var currentDuration: String = "" {
         didSet {
@@ -27,9 +23,11 @@ class FeedParser:NSObject {
             currentThumbnail = currentThumbnail.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
-    
-    private var currentLink: String = ""
-    private var currentID: String = ""
+    private var currentTitle: String = "" {
+        didSet {
+            currentTitle = currentTitle.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        }
+    }
     private var currentDescription: String = "" {
         didSet {
             currentDescription = currentDescription.trimmingCharacters(in: CharacterSet.whitespaces)
@@ -70,13 +68,11 @@ extension FeedParser: XMLParserDelegate {
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         currentElement = elementName
         if currentElement == "item" {
-            currentTitle = ""
             currentAuthor = ""
             currentDuration = ""
             currentThumbnail = ""
-            currentID = ""
+            currentTitle = ""
             currentDescription = ""
-            currentLink = ""
         } else if currentElement == "itunes:image" {
             currentThumbnail = attributeDict["url"]!
         }
@@ -90,10 +86,7 @@ extension FeedParser: XMLParserDelegate {
             if string != "" {
                 currentAuthor += string + ", "
             }
-            
         case "itunes:duration": currentDuration += string
-        case "link": currentLink += string
-        case "guid": currentID += string
         case "description": currentDescription += string
         default: break
         }
@@ -110,7 +103,7 @@ extension FeedParser: XMLParserDelegate {
             currentTitle = String(currentTitle[..<index])
             
             currentAuthor = currentAuthor.trimmingCharacters(in: CharacterSet(charactersIn: ",").union(CharacterSet.whitespacesAndNewlines))
-
+            
             let video = TEDVideo(entity: VideoManager.entity, insertInto: nil)
             video.author = currentAuthor
             video.duration = currentDuration

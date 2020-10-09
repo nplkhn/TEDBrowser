@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class DescriptionViewController: UIViewController {
     
@@ -75,13 +77,15 @@ class DescriptionViewController: UIViewController {
             titleLabel.text = video.title
             authorLabel.text = video.author
             descriptionTextView.text = video.videoDescription
-            imageView.image = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) ?? UIImage(systemName: "video")
-            likeButton.setImage(video.isFavourite! ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+            imageView.image = UIImage(data: VideoManager.cache.object(forKey: video.title.hashValue as NSNumber)! as Data) ?? UIImage(systemName: "video")
+            likeButton.setImage(VideoManager.isFavourite(video: video) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let player = AVPlayer(url: URL(string: video.))
         
         setupView()
     }
@@ -155,8 +159,12 @@ class DescriptionViewController: UIViewController {
     }
     
     @objc private func toggleFavourite() {
-        self.video.isFavourite! ? VideoManager.addToFavourites(video: self.video) : VideoManager.removeFromFavourites(video: self.video)
-        
-        self.video.isFavourite = !self.video.isFavourite!
+        if !(VideoManager.isFavourite(video: video)){
+            VideoManager.addToFavourites(video: video)
+            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            VideoManager.removeFromFavourites(video: video)
+            likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
     }
 }

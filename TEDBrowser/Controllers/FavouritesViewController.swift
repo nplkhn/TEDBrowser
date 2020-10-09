@@ -10,8 +10,13 @@ import UIKit
 
 class FavouritesViewController: UITableViewController {
     
+    let cellID = "TEDVideoCell"
+    
     var videos: [TEDVideo] = [] {
         didSet {
+            videos.sort { (left, right) -> Bool in
+                left.title < right.title
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -21,7 +26,7 @@ class FavouritesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoCell")
+        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: cellID)
         tableView.rowHeight = 90
         self.view.backgroundColor = .black
         
@@ -46,9 +51,21 @@ class FavouritesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TEDVideoCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! TEDVideoTableViewCell
+        let video = videos[indexPath.row]
 
+        cell.setup(with: video)
         
+        if let cachedImageData = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) {
+            cell.thumbnail = UIImage(data: cachedImageData as Data)
+        } else {
+            cell.thumbnail = UIImage(systemName: "video")
+            VideoManager.fetchThumbnail(for: video) { (image) in
+                DispatchQueue.main.async {
+                    cell.thumbnail = image
+                }
+            }
+        }
 
         return cell
     }

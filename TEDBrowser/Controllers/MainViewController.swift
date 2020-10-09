@@ -31,7 +31,6 @@ class MainViewController: UITabBarController {
         setupViewControllers()
         
         self.viewControllers = [homeVC, favouritesVC]
-        
     }
     
     private func setupViewControllers() {

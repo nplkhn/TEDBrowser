@@ -9,6 +9,9 @@
 import UIKit
 
 class HomeViewController: UITableViewController, XMLParserDelegate {
+    
+    let cellID = "TEDVideoCell"
+    
     var videos: [TEDVideo] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -41,7 +44,7 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         activityView.color = .white
         activityView.startAnimating()
         
-        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: "TEDVideoCell")
+        tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: cellID)
         tableView.rowHeight = 90
         
         
@@ -52,7 +55,6 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
         super.viewWillAppear(animated)
         self.parent?.navigationItem.title = "Все видео"
         self.parent?.navigationItem.searchController = searchController
-//        self.parent?.navigationItem.
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -79,15 +81,14 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TEDVideoCell", for: indexPath) as! TEDVideoTableViewCell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! TEDVideoTableViewCell
         let video = videos[indexPath.row]
         
-        cell.duration = video.duration
-        cell.author = video.author
-        cell.title = video.title
+        cell.setup(with: video)
         
-        if let cachedImage = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) {
-            cell.thumbnail = cachedImage
+        if let cachedImageData = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) {
+            cell.thumbnail = UIImage(data: cachedImageData as Data)
         } else {
             cell.thumbnail = UIImage(systemName: "video")
             VideoManager.fetchThumbnail(for: video) { (image) in
@@ -97,8 +98,11 @@ class HomeViewController: UITableViewController, XMLParserDelegate {
             }
         }
         
+
         return cell
     }
+    
+    
     
 }
 

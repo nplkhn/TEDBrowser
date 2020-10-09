@@ -40,6 +40,7 @@ class TEDVideoTableViewCell: UITableViewCell {
     }
     
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -50,8 +51,15 @@ class TEDVideoTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        
+            
         // Configure the view for the selected state
+    }
+    
+    func setup(with video: TEDVideo) {
+        title = video.title
+        author = video.author
+        duration = video.duration
+        
     }
     
 }

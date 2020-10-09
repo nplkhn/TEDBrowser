@@ -11,13 +11,12 @@ import Foundation
 import CoreData
 
 
-protocol Favouritable {
-    var isFavourite: Bool? {get set}
-}
+//protocol Favouritable {
+//    var isFavourite: Bool? {get set}
+//}
 
 @objc(TEDVideo)
-public class TEDVideo: NSManagedObject, Favouritable {
-    var isFavourite: Bool?
+public class TEDVideo: NSManagedObject {
     
 }
 
