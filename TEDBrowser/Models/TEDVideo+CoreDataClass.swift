@@ -18,6 +18,9 @@ import CoreData
 @objc(TEDVideo)
 public class TEDVideo: NSManagedObject {
     
+    static func ==(lhs: TEDVideo, rhs: TEDVideo) -> Bool {
+        return (lhs.title == rhs.title && lhs.author == rhs.author)
+    }
 }
 
 

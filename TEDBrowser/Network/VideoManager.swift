@@ -85,7 +85,7 @@ class VideoManager {
     
     // Manage favourites
     static func isFavourite(video: TEDVideo) -> Bool {
-        return (context?.insertedObjects.contains(video))!
+        return favouriteVideos.contains(where: {$0 == video})
     }
     
     static func addToFavourites(video: TEDVideo) {
@@ -110,3 +110,4 @@ class VideoManager {
         }
     }
 }
+

@@ -110,22 +110,42 @@
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
-                     consoleCommand = "po context?.insertedObjects.contains(video)">
-                  </ActionContent>
-               </BreakpointActionProxy>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po favouriteVideos.count">
-                  </ActionContent>
-               </BreakpointActionProxy>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po favouriteVideos.contains(video)">
+                     consoleCommand = "po (context?.insertedObjects as! Set&lt;TEDVideo&gt;).contains(video)">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
+            <Locations>
+               <Location
+                  uuid = "91D1EE94-7BDD-48AB-A592-24C58AABBCDF - 71decb0da56e26e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static TEDBrowser.VideoManager.isFavourite(video: TEDBrowser.TEDVideo) -&gt; Swift.Bool"
+                  moduleName = "TEDBrowser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "91D1EE94-7BDD-48AB-A592-24C58AABBCDF - 9a59cbf51745856a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (TEDBrowser.TEDVideo) -&gt; Swift.Bool in static TEDBrowser.VideoManager.isFavourite(video: TEDBrowser.TEDVideo) -&gt; Swift.Bool"
+                  moduleName = "TEDBrowser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "42">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
