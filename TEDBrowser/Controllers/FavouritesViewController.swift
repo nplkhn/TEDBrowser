@@ -40,6 +40,12 @@ class FavouritesViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let descriptionVC = DescriptionViewController()
+        descriptionVC.video = videos[indexPath.row]
+        self.present(descriptionVC, animated: true, completion: nil)
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
