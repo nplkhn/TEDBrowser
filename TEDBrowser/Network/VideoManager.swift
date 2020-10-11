@@ -21,6 +21,9 @@ class VideoManager {
     // Video data
     static var favouriteVideos = [TEDVideo]() {
         didSet {
+            favouriteVideos = favouriteVideos.sorted { (lhs, rhs) -> Bool in
+                lhs.title < rhs.title
+            }
             favouriteVideosCompletionHandler?(favouriteVideos)
         }
     }

@@ -1,51 +1,47 @@
 //
-//  FavouritesViewCellTableViewController.swift
+//  SearchResultViewController.swift
 //  TEDBrowser
 //
-//  Created by Никита Плахин on 9/12/20.
+//  Created by Никита Плахин on 10/11/20.
 //  Copyright © 2020 Никита Плахин. All rights reserved.
 //
 
 import UIKit
 
-class FavouritesViewController: UITableViewController {
+class SearchResultViewController: UITableViewController {
     
-    let cellID = "TEDVideoCell"
-    
-    var videos: [TEDVideo] = [] {
+    var searchResult: [TEDVideo] = [] {
         didSet {
-            videos.sort { (left, right) -> Bool in
-                left.title < right.title
-            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
-    
+    let cellID = "TEDVideoCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.backgroundColor = .black
         tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: cellID)
         tableView.rowHeight = 90
-        self.view.backgroundColor = .black
-        
-        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.parent?.navigationItem.title = "Понравившиеся"
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let descriptionVC = DescriptionViewController()
+        descriptionVC.video = searchResult[indexPath.row]
+        self.present(descriptionVC, animated: true) {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let descriptionVC = DescriptionViewController()
-        descriptionVC.video = videos[indexPath.row]
-        self.present(descriptionVC, animated: true, completion: nil)
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -53,20 +49,20 @@ class FavouritesViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return videos.count
+        return searchResult.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! TEDVideoTableViewCell
-        let video = videos[indexPath.row]
-
-        cell.setup(with: video)
+        let result = searchResult[indexPath.row]
         
-        if let cachedImageData = VideoManager.cache.object(forKey: video.title.hashValue as NSNumber) {
+        cell.setup(with: result)
+        
+        if let cachedImageData = VideoManager.cache.object(forKey: result.title.hashValue as NSNumber) {
             cell.thumbnail = UIImage(data: cachedImageData as Data)
         } else {
             cell.thumbnail = UIImage(systemName: "video")
-            VideoManager.fetchThumbnail(for: video) { (image) in
+            VideoManager.fetchThumbnail(for: result) { (image) in
                 DispatchQueue.main.async {
                     cell.thumbnail = image
                 }
@@ -75,7 +71,7 @@ class FavouritesViewController: UITableViewController {
 
         return cell
     }
-}
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -111,5 +107,14 @@ class FavouritesViewController: UITableViewController {
     }
     */
 
-    
+    /*
+    // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

@@ -46,6 +46,7 @@ class DescriptionViewController: UIViewController {
         button.tintColor = .lightGray
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
+        button.imageView?.contentMode = .scaleAspectFill
         return button
     }()
     

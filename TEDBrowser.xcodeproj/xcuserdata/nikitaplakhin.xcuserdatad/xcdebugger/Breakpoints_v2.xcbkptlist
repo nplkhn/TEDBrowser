@@ -7,145 +7,41 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8F21AFD2-1260-4655-9D2D-6476FC197ABD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "Yes"
-            filePath = "TEDBrowser/Network/VideoManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "addToFavourites(video:)"
-            landmarkType = "7">
-            <Actions>
-               <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
-                  <ActionContent
-                     consoleCommand = "po self.favouriteVideos">
-                  </ActionContent>
-               </BreakpointActionProxy>
-            </Actions>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "69B32258-5E26-4DF3-A93B-C753407C9D13"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TEDBrowser/Network/VideoManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "removeFromFavourites(video:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D8A1EE27-B14E-4F76-BEFF-EB3B3B2D6589"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TEDBrowser/Network/VideoManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "fetchFavouriteVideos()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D8A1EE27-B14E-4F76-BEFF-EB3B3B2D6589 - fe3aae43156726fb"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static TEDBrowser.VideoManager.(fetchFavouriteVideos in _4C7F0B18D206B162A34A6BC73A70948A)() -&gt; ()"
-                  moduleName = "TEDBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "131">
-               </Location>
-               <Location
-                  uuid = "D8A1EE27-B14E-4F76-BEFF-EB3B3B2D6589 - fe3aae43156726fb"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static TEDBrowser.VideoManager.(fetchFavouriteVideos in _4C7F0B18D206B162A34A6BC73A70948A)() -&gt; ()"
-                  moduleName = "TEDBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "915">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "91D1EE94-7BDD-48AB-A592-24C58AABBCDF"
+            uuid = "D93375A3-EC4E-47B7-AC1F-D04573357D35"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
-            filePath = "TEDBrowser/Network/VideoManager.swift"
+            filePath = "TEDBrowser/Controllers/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "isFavourite(video:)"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "updateSearchResults(for:)"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
-                     consoleCommand = "po (context?.insertedObjects as! Set&lt;TEDVideo&gt;).contains(video)">
+                     consoleCommand = "po isSearchMode">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>
-            <Locations>
-               <Location
-                  uuid = "91D1EE94-7BDD-48AB-A592-24C58AABBCDF - 71decb0da56e26e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static TEDBrowser.VideoManager.isFavourite(video: TEDBrowser.TEDVideo) -&gt; Swift.Bool"
-                  moduleName = "TEDBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "88"
-                  endingLineNumber = "88"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  uuid = "91D1EE94-7BDD-48AB-A592-24C58AABBCDF - 9a59cbf51745856a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (TEDBrowser.TEDVideo) -&gt; Swift.Bool in static TEDBrowser.VideoManager.isFavourite(video: TEDBrowser.TEDVideo) -&gt; Swift.Bool"
-                  moduleName = "TEDBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nikitaplakhin/Desktop/Programming/Projects/Swift/TEDBrowser/TEDBrowser/Network/VideoManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "88"
-                  endingLineNumber = "88"
-                  offsetFromSymbolStart = "42">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00103AE4-64C6-4CA8-B7D7-377659E6C71D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TEDBrowser/Controllers/HomeViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "HomeViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

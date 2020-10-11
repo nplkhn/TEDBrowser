@@ -10,18 +10,14 @@ import UIKit
 
 class MainViewController: UITabBarController {
     
-    private var homeVC: HomeViewController = HomeViewController()
-    private var favouritesVC: FavouritesViewController = FavouritesViewController()
+    private var homeVC: VideosTableViewController = VideosTableViewController()
+    private var favouritesVC: VideosTableViewController = VideosTableViewController()
     private var videoManager = VideoManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         
-        
-        DispatchQueue.main.async {
-            VideoManager.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-        }
         VideoManager.fetchVideos(allVideosCompletionHandler: { (videos) in
             self.homeVC.videos = videos
         }, favouriteVideosCompletionHandler: { (videos) in
@@ -30,13 +26,16 @@ class MainViewController: UITabBarController {
         
         setupViewControllers()
         
+        
         self.viewControllers = [homeVC, favouritesVC]
     }
     
     private func setupViewControllers() {
         homeVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        homeVC.navigationTitle = "Все видео"
         
         favouritesVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        favouritesVC.navigationTitle = "Понравившиеся"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,4 +50,15 @@ class MainViewController: UITabBarController {
         tabBar.tintColor = .lightGray
         
     }
+}
+
+extension MainViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        print(text)
+    }
+    
+    
 }
