@@ -75,6 +75,8 @@ class DescriptionViewController: UIViewController {
     private var infoStack: UIStackView!
     private var containerStack: UIStackView!
     
+    private var videoController: AVPlayerViewController!
+    
     var video: TEDVideo! {
         didSet {
             titleLabel.text = video.title
@@ -88,7 +90,13 @@ class DescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let player = AVPlayer(url: URL(string: video.))
+        
+        // TODO: fix the error here with unwrapping optional value
+        
+        let player = AVPlayer(url: URL(string: video.link)!)
+        videoController = AVPlayerViewController()
+        videoController.player = player
+        
         
         setupView()
     }
@@ -112,8 +120,10 @@ class DescriptionViewController: UIViewController {
         self.infoStack.setCustomSpacing(40, after: self.authorLabel)
         self.infoStack.setCustomSpacing(20, after: self.buttonStack)
         
+        self.addChild(videoController)
+        
         // setup container stack view
-        self.containerStack = UIStackView(arrangedSubviews: [self.imageView, self.infoStack])
+        self.containerStack = UIStackView(arrangedSubviews: [videoController.view, self.infoStack])
         self.containerStack.axis = .vertical
         self.containerStack.distribution = .fillProportionally
         self.containerStack.alignment = .center
@@ -124,8 +134,8 @@ class DescriptionViewController: UIViewController {
         self.view.addSubview(self.containerStack)
         currentConstraints = [
             // thumbnail image
-            NSLayoutConstraint(item: self.imageView, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self.imageView, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 9/16, constant: 0),
+            NSLayoutConstraint(item: self.videoController.view!, attribute: .width, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.videoController.view!, attribute: .height, relatedBy: .equal, toItem: self.containerStack, attribute: .width, multiplier: 9/16, constant: 0),
             
             // button size
             NSLayoutConstraint(item: self.likeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 30),

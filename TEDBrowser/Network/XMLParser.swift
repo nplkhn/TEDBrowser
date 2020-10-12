@@ -76,7 +76,7 @@ extension FeedParser: XMLParserDelegate {
             currentDescription = ""
         } else if currentElement == "itunes:image" {
             currentThumbnail = attributeDict["url"] ?? ""
-        } else if currentElement == "media:content" && attributeDict["url"] == "600" {
+        } else if currentElement == "media:content" && attributeDict["bitrate"] == "600" {
             currentLink = attributeDict["url"] ?? ""
         }
             
