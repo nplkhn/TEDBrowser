@@ -96,6 +96,7 @@ class DescriptionViewController: UIViewController {
         let player = AVPlayer(url: URL(string: video.link)!)
         videoController = AVPlayerViewController()
         videoController.player = player
+        videoController.showsPlaybackControls = true
         
         
         setupView()
@@ -155,7 +156,8 @@ class DescriptionViewController: UIViewController {
         ]
         NSLayoutConstraint.activate(currentConstraints)
         
-        self.likeButton.addTarget(self, action: #selector(self.toggleFavourite), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(self.toggleFavourite), for: .touchUpInside)
+        shareButton.addTarget(self, action: #selector(self.share), for: .touchUpInside)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -179,5 +181,16 @@ class DescriptionViewController: UIViewController {
             VideoManager.removeFromFavourites(video: video)
             likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
+    }
+    
+    @objc private func share() {
+        let message = """
+        Advise you to watch \(video.title) from \(video.author)
+        Link: \(video.link)
+        """
+        
+        let activityController = UIActivityViewController(activityItems: [message], applicationActivities: nil)
+        
+        present(activityController, animated: true, completion: nil)
     }
 }
