@@ -33,6 +33,7 @@ class FeedParser:NSObject {
             currentDescription = currentDescription.trimmingCharacters(in: CharacterSet.whitespaces)
         }
     }
+    private var currentLink: String = ""
     
     private var parserCompleteionHandler: (([TEDVideo]) -> Void)?
     
@@ -74,7 +75,9 @@ extension FeedParser: XMLParserDelegate {
             currentTitle = ""
             currentDescription = ""
         } else if currentElement == "itunes:image" {
-            currentThumbnail = attributeDict["url"]!
+            currentThumbnail = attributeDict["url"] ?? ""
+        } else if currentElement == "media:content" && attributeDict["url"] == "600" {
+            currentLink = attributeDict["url"] ?? ""
         }
             
     }
@@ -110,6 +113,7 @@ extension FeedParser: XMLParserDelegate {
             video.title = currentTitle
             video.thumbnail = currentThumbnail
             video.videoDescription = currentDescription
+            video.link = currentLink
             
             rssItems.append(video)
         }

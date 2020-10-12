@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="TEDVideo" representedClassName="TEDVideo" syncable="YES">
         <attribute name="author" attributeType="String"/>
         <attribute name="duration" attributeType="String"/>
+        <attribute name="link" optional="YES" attributeType="String"/>
         <attribute name="thumbnail" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
         <attribute name="videoDescription" attributeType="String"/>
     </entity>
     <elements>
-        <element name="TEDVideo" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="TEDVideo" positionX="-54" positionY="-9" width="128" height="133"/>
     </elements>
 </model>

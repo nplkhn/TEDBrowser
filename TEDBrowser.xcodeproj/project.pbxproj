@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		034917CF2533A2DC003FFCA3 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034917CE2533A2DC003FFCA3 /* SearchResultViewController.swift */; };
 		034917D42533AECF003FFCA3 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034917D32533AECF003FFCA3 /* VideosTableViewController.swift */; };
+		034917F9253472FE003FFCA3 /* TEDVideo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034917F8253472FE003FFCA3 /* TEDVideo+CoreDataProperties.swift */; };
 		0358AA8024F7A66A002E7EEB /* TEDVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0358AA7E24F7A66A002E7EEB /* TEDVideoTableViewCell.swift */; };
 		0358AA8124F7A66A002E7EEB /* TEDVideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0358AA7F24F7A66A002E7EEB /* TEDVideoTableViewCell.xib */; };
 		0360DA422514E6EB0084124A /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360DA412514E6EB0084124A /* DescriptionViewController.swift */; };
 		0360DA49251D52A80084124A /* TEDVideo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360DA47251D52A80084124A /* TEDVideo+CoreDataClass.swift */; };
 		0360DA4C252134E50084124A /* VideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360DA4B252134E40084124A /* VideoManager.swift */; };
-		0360DA5025213E770084124A /* TEDVideo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0360DA4E25213E770084124A /* TEDVideo+CoreDataProperties.swift */; };
 		03B559BB24EE9760007AF5C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B559BA24EE9760007AF5C5 /* AppDelegate.swift */; };
 		03B559BF24EE9760007AF5C5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B559BE24EE9760007AF5C5 /* MainViewController.swift */; };
 		03B559C524EE9760007AF5C5 /* TEDBrowser.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 03B559C324EE9760007AF5C5 /* TEDBrowser.xcdatamodeld */; };
@@ -45,12 +45,12 @@
 /* Begin PBXFileReference section */
 		034917CE2533A2DC003FFCA3 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		034917D32533AECF003FFCA3 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
+		034917F8253472FE003FFCA3 /* TEDVideo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TEDVideo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0358AA7E24F7A66A002E7EEB /* TEDVideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TEDVideoTableViewCell.swift; path = TEDBrowser/Views/TEDVideoTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		0358AA7F24F7A66A002E7EEB /* TEDVideoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TEDVideoTableViewCell.xib; sourceTree = "<group>"; };
 		0360DA412514E6EB0084124A /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		0360DA47251D52A80084124A /* TEDVideo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TEDVideo+CoreDataClass.swift"; path = "TEDBrowser/Models/TEDVideo+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		0360DA4B252134E40084124A /* VideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoManager.swift; sourceTree = "<group>"; };
-		0360DA4E25213E770084124A /* TEDVideo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TEDVideo+CoreDataProperties.swift"; path = "../TEDVideo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		03B559B724EE9760007AF5C5 /* TEDBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TEDBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		03B559BA24EE9760007AF5C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TEDBrowser/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		03B559BE24EE9760007AF5C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = TEDBrowser/Controllers/MainViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -106,8 +106,8 @@
 		0358AA7A24F52B89002E7EEB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				034917F8253472FE003FFCA3 /* TEDVideo+CoreDataProperties.swift */,
 				0360DA47251D52A80084124A /* TEDVideo+CoreDataClass.swift */,
-				0360DA4E25213E770084124A /* TEDVideo+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -317,11 +317,11 @@
 			files = (
 				034917D42533AECF003FFCA3 /* VideosTableViewController.swift in Sources */,
 				03B559C524EE9760007AF5C5 /* TEDBrowser.xcdatamodeld in Sources */,
-				0360DA5025213E770084124A /* TEDVideo+CoreDataProperties.swift in Sources */,
 				03B559BF24EE9760007AF5C5 /* MainViewController.swift in Sources */,
 				0360DA4C252134E50084124A /* VideoManager.swift in Sources */,
 				0360DA422514E6EB0084124A /* DescriptionViewController.swift in Sources */,
 				03B559BB24EE9760007AF5C5 /* AppDelegate.swift in Sources */,
+				034917F9253472FE003FFCA3 /* TEDVideo+CoreDataProperties.swift in Sources */,
 				0360DA49251D52A80084124A /* TEDVideo+CoreDataClass.swift in Sources */,
 				03F5480C24FF9BCD003291E0 /* XMLParser.swift in Sources */,
 				034917CF2533A2DC003FFCA3 /* SearchResultViewController.swift in Sources */,

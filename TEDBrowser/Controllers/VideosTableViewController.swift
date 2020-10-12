@@ -15,6 +15,8 @@ class VideosTableViewController: UITableViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.removeFromSuperview()
             }
         }
     }
@@ -22,12 +24,19 @@ class VideosTableViewController: UITableViewController {
     
     private var searchController: UISearchController!
     private var searchResultController: SearchResultViewController!
+    private var activityIndicator: UIActivityIndicatorView!
 
     
     // MARK: - view controller life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .lightGray
+        activityIndicator.center = parent?.view.center ?? CGPoint(x: view.bounds.maxX / 2, y: view.bounds.maxY / 2)
+        activityIndicator.startAnimating()
+        parent?.view.addSubview(activityIndicator)
 
         tableView.backgroundColor = .black
         tableView.register(UINib(nibName: "TEDVideoTableViewCell", bundle: nil), forCellReuseIdentifier: cellID)
@@ -94,6 +103,10 @@ class VideosTableViewController: UITableViewController {
         self.present(descriptionVC, animated: true) {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        activityIndicator.center = view.center
     }
     
 }
