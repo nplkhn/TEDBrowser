@@ -100,6 +100,7 @@ class DescriptionViewController: UIViewController {
         
         
         setupView()
+        videoController.didMove(toParent: self)
     }
     
     func setupView() {

@@ -46,7 +46,7 @@ class VideosTableViewController: UITableViewController {
         searchController = UISearchController(searchResultsController: searchResultController)
         searchController?.searchBar.barStyle = .black
         searchController.searchResultsUpdater = self
-        
+        searchController.searchBar.placeholder = "Search for videos or authors"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
